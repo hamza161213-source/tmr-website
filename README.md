@@ -1,77 +1,133 @@
-# The Method Room — Static Website
+# The Method Room — Website
 
-Simple, clean static website for The Method Room (Reformer Pilates studio) with Mindbody booking integration.
+Modern, responsive website for The Method Room - a boutique, women-focused Reformer Pilates studio in Thornton Heath.
 
-**Domain:** www.themethodroom.co.uk
+**Live Site:** www.themethodroom.co.uk  
+**Preview:** https://hamza161213-source.github.io/tmr-website/TMR%20Website/
 
-## Hosting on Netlify (Recommended)
+## Features
 
-### Deploy
-1. Create a Netlify account and click "Add new site" → "Import an existing project".
-2. If you're not using Git, choose "Deploy manually" and drag-drop the folder.
-3. Netlify will deploy and give you a temporary URL.
+- **2-Column Hero Layout** - Desktop: text left, image right | Mobile: stacked single column
+- **Collapsible FAQ Accordion** - Smooth animations with rotating maroon arrows
+- **Responsive Class Grid** - 2x2 on mobile, 4-column on desktop
+- **Netlify Forms Integration** - Contact form + newsletter signup
+- **Mobile-Optimized Header** - Logo left, navigation right with "Book Now" button
+- **Accessibility** - Keyboard navigation, focus states, descriptive alt text
+- **Premium Design** - Cream (#fffbf2) background, burgundy (#942239) accents, luxury typography
 
-### Custom Domain (GoDaddy)
-1. In Netlify → Site settings → Domain management → Add custom domain: `www.themethodroom.co.uk`.
-2. In GoDaddy DNS, add these records:
-   - CNAME `www` → your Netlify subdomain (e.g., `your-site.netlify.app`).
-   - Optional: A Record (apex) to Netlify if you want root domain; or use Netlify DNS.
-3. Enable HTTPS in Netlify (Let's Encrypt) and wait for certificate issuance.
+## Tech Stack
 
-### Netlify Forms (Email notifications)
-The contact form is wired to Netlify Forms.
-- Submissions appear under Site → Forms.
-- Enable email notifications in Site settings → Forms → Notifications.
+- Static HTML/CSS/JavaScript
+- Fonts: Lora (body), Cormorant Garamond (headings), Playfair Display (hero)
+- Netlify hosting with form handling
+- Google Maps embed for location
+- IntersectionObserver scroll animations
 
-Form requirements already in `index.html`:
-- `data-netlify="true"`, `method="POST"`, and hidden `form-name`.
-- Honeypot field `bot-field` to reduce spam.
-- Redirects to `thank-you.html` after submit.
+## Contact Information
 
-## Setup
+- **Email:** themethodroom@gmail.com
+- **Phone:** +44 7343 032352
+- **WhatsApp:** https://wa.me/message/54FXCYXY4SC7O1
+- **Address:** 1050-1052 London Road, Thornton Heath, Surrey CR7 7ND
+- **Instagram:** @themethodroom.studio
+- **TikTok:** @themethodroom
 
-### 1. Add Your Logo
-Place your logo file (`logo.png` or replace the filename in `index.html`) in the root folder. Recommended size: 200px max width.
+## Deployment
 
-### 2. Configure Mindbody Integration
-In `script.js`, update these fields with your Mindbody details:
-```javascript
-const MINDBODY_CONFIG = {
-  siteId: 'YOUR_SITE_ID',
-  apiKey: 'YOUR_API_KEY',
-  bookingURL: 'https://your-mindbody-login-page.mindbody.io'
-};
-```
+### GitHub Pages (Current Preview)
+Site deployed at: https://hamza161213-source.github.io/tmr-website/TMR%20Website/
 
-Mindbody will provide you with the booking page URL when you set up the integration.
+### Netlify (Production)
+1. Connect GitHub repo or drag-drop files
+2. Build settings: None (static site)
+3. Add custom domain: www.themethodroom.co.uk
+4. Configure GoDaddy DNS:
+   - CNAME `www` → `your-site.netlify.app`
+5. Enable HTTPS (automatic via Let's Encrypt)
+6. Enable form notifications: Site settings → Forms → Notifications
 
-### 3. Add Google Maps Embed
-In `index.html`, find the empty `<iframe src="">` tag in the contact section and add your Google Maps embed link.
+### Netlify Forms Setup
+Already configured with:
+- `data-netlify="true"` on forms
+- Honeypot spam protection (`bot-field`)
+- Success redirect to `thank-you.html`
 
-### 4. Update Contact Details
-Replace placeholder phone number and social links with actual details.
+## Local Development
 
-### 5. Optional: Use Formspree instead of Netlify Forms
-If you prefer Formspree:
-1. Create a form at https://formspree.io and copy your form endpoint (e.g., `https://formspree.io/f/xyzabc`).
-2. Change the contact form tag in `index.html` to:
-   `<form id="contactForm" action="https://formspree.io/f/xyzabc" method="POST">`
-3. Remove the Netlify-specific attributes/inputs (`data-netlify`, `form-name`, `bot-field`).
-4. In Formspree, verify your email and enable notifications.
-
-## Local Testing
+Start local server (requires VS Code Live Server or Python):
 
 ```powershell
-# Python 3 (if installed)
-python -m http.server 8000
+# VS Code Live Server Extension (recommended)
+Right-click index.html → "Open with Live Server"
 
-# Node (if installed)
-npx http-server -c-1 -p 8000
+# Python (alternative)
+python -m http.server 5500
 ```
 
-Then open `http://localhost:8000` in your browser.
+Open: http://localhost:5500
 
-## Notes
-- All booking buttons redirect to your Mindbody login page
-- Contact form uses Netlify Forms by default; enable email notifications in Netlify
-- Responsive design works on mobile, tablet, and desktop
+## File Structure
+
+```
+TMR Website/
+├── index.html           # Homepage
+├── styles.css           # All styling
+├── script.js            # Interactions + animations
+├── assets/
+│   ├── editimg.jpg      # Hero image
+│   ├── logo.png.png     # Header logo
+│   ├── foundations img.png
+│   ├── flow img.png
+│   ├── strength img.png
+│   └── private img.png
+├── privacy-policy.html
+├── terms-of-service.html
+├── cookie-settings.html
+├── journal.html
+└── thank-you.html
+```
+
+## Key Customizations
+
+### Hero Section
+- 2-column Grid layout (900px+ breakpoint)
+- Image: `assets/editimg.jpg` with bottom positioning
+- Responsive: stacks to single column on mobile (450-550px image height)
+- Subtle cream-to-transparent gradient overlay on image left edge
+
+### FAQ Accordion
+- Click question to expand/collapse
+- Smooth cubic-bezier animation (.45s)
+- Maroon arrow (›) rotates 90° when active
+- Only one answer open at a time
+
+### Mobile Optimizations
+- Logo: 60px height
+- Classes grid: 2x2 layout
+- Hero image: 450-550px height
+- Header: horizontal layout (logo left, nav right)
+
+### Button Styling
+All buttons (Book Now, Send, Subscribe) use:
+- Font: Lora, 1.1rem
+- Color: #942239 (burgundy)
+- Focus states with visible outlines
+- Hover effects with translateY
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Safari (latest)
+- Firefox (latest)
+- Mobile Safari/Chrome
+
+## TODO
+
+- [ ] Add Mindbody booking URL in `script.js`
+- [ ] Replace 4 class card images with high-res versions (1200px+ PNG from Canva)
+- [ ] Test all forms on production Netlify
+- [ ] Verify Google Maps embed loads correctly
+
+## License
+
+© 2025 The Method Room Limited. All rights reserved.
