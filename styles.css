@@ -345,3 +345,11 @@ input:checked + .slider:before{transform:translateX(26px)}
   .container{padding:.75rem}
 }
 
+/* Mindbody form styling - ensure labels are grey not black */
+.prospects-widget-wrapper label, .prospects-widget-wrapper .label-text {
+  color: var(--muted) !important;
+}
+.prospects-widget-wrapper fieldset legend {
+  color: var(--muted) !important;
+}
+
