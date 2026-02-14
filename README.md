@@ -1,6 +1,6 @@
 # The Method Room — Website
 
-Modern, responsive website for The Method Room - a boutique, women-focused Reformer Pilates studio in Thornton Heath.
+Modern, responsive website for The Method Room - a boutique, women-only Reformer Pilates studio in Thornton Heath.
 
 **Live Site:** www.themethodroom.co.uk  
 **Preview:** https://hamza161213-source.github.io/tmr-website/TMR%20Website/

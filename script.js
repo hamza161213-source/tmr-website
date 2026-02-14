@@ -13,6 +13,54 @@ document.addEventListener('DOMContentLoaded', function(){
     }, 1);
   }
 
+  // Hamburger menu functionality
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('nav');
+  const overlay = document.getElementById('navOverlay') || document.querySelector('.nav-overlay');
+  const body = document.body;
+  
+  function toggleMenu() {
+    const isActive = hamburger.classList.contains('active');
+    
+    if(isActive) {
+      hamburger.classList.remove('active');
+      nav.classList.remove('active');
+      overlay.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    } else {
+      hamburger.classList.add('active');
+      nav.classList.add('active');
+      overlay.classList.add('active');
+      hamburger.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+  }
+  
+  if(hamburger && nav) {
+    hamburger.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking a nav link
+    const navLinks = nav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        if(nav.classList.contains('active')) {
+          toggleMenu();
+        }
+      });
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+      if(e.key === 'Escape' && nav.classList.contains('active')) {
+        toggleMenu();
+      }
+    });
+  }
+
   const form = document.getElementById('contactForm');
   if(form){
     // If using Netlify Forms, allow the browser to submit normally
@@ -85,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function(){
     entries.forEach(entry => {
       if(entry.isIntersecting){
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
+        // Keep observing to maintain visibility
       }
     });
   }, observerOptions);
@@ -108,6 +156,14 @@ document.addEventListener('DOMContentLoaded', function(){
   // Add staggered fade-in to cards
   const cards = document.querySelectorAll('.card');
   cards.forEach((card, index) => {
+    card.classList.add('fade-in-up');
+    if(index < 4) card.classList.add(`stagger-${index + 1}`);
+    fadeObserver.observe(card);
+  });
+
+  // Add fade-in to instructor cards
+  const instructorCards = document.querySelectorAll('.instructor-card');
+  instructorCards.forEach((card, index) => {
     card.classList.add('fade-in-up');
     if(index < 4) card.classList.add(`stagger-${index + 1}`);
     fadeObserver.observe(card);
