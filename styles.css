@@ -109,6 +109,7 @@ a{font-family:'Lora',serif;font-weight:600;color:#942239;cursor:pointer}
 
 /* Mindbody Widgets Styling */
 .prospects-widget-wrapper{background:#fffbf2;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(148,34,57,0.08);margin-top:1.5rem;border:1px solid rgba(148,34,57,0.1)}
+.registrations-widget-wrapper{background:#fffbf2;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(148,34,57,0.08);margin-top:1.5rem;border:1px solid rgba(148,34,57,0.1)}
 .get-started{background:#fffbf2;padding:3rem 2rem;border-radius:8px}
 .get-started .intro{max-width:60ch;margin:0 auto 1rem;text-align:center;color:var(--muted)}
 .get-started h3{text-align:center;margin-bottom:1rem}
@@ -347,13 +348,16 @@ input:checked + .slider:before{transform:translateX(26px)}
   .contact-grid{grid-template-columns:1fr!important;gap:1.5rem!important;margin-left:0!important;margin-right:0!important;overflow:hidden!important}
   .contact-grid .map{overflow:hidden!important}
   .contact-grid .map{height:300px}
+  .prospects-widget-wrapper, .registrations-widget-wrapper{padding:1.5rem!important}
 }
 
 /* Mindbody form styling - ensure labels are grey not black */
-.prospects-widget-wrapper label, .prospects-widget-wrapper .label-text {
+.prospects-widget-wrapper label, .prospects-widget-wrapper .label-text,
+.registrations-widget-wrapper label, .registrations-widget-wrapper .label-text {
   color: var(--muted) !important;
 }
-.prospects-widget-wrapper fieldset legend {
+.prospects-widget-wrapper fieldset legend,
+.registrations-widget-wrapper fieldset legend {
   color: var(--muted) !important;
 }
 
