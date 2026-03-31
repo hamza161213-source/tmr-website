@@ -6,6 +6,14 @@ const MINDBODY_CONFIG = {
   bookingURL: 'https://your-mindbody-login-page.mindbody.io' // Update with your booking link
 };
 
+function hasValidBookingURL(url) {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  return url.startsWith('http') && !url.includes('your-mindbody-login-page.mindbody.io');
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   // Force scroll to top on page load
   if(window.location.hash){
@@ -87,8 +95,19 @@ document.addEventListener('DOMContentLoaded', function(){
   bookingLinks.forEach(link => {
     link.addEventListener('click', function(e){
       e.preventDefault();
-      // Redirect to Mindbody booking system
-      window.location.href = MINDBODY_CONFIG.bookingURL;
+      const target = this.getAttribute('href');
+
+      if (target && target.startsWith('#')) {
+        const section = document.querySelector(target);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+      }
+
+      if (hasValidBookingURL(MINDBODY_CONFIG.bookingURL)) {
+        window.location.href = MINDBODY_CONFIG.bookingURL;
+      }
     });
   });
 
