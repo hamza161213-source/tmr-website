@@ -88,6 +88,9 @@ a{font-family:'Lora',serif;font-weight:600;color:#942239;cursor:pointer}
 .nav .cta{background:#942239;color:#fff;padding:.5rem .75rem;border-radius:6px;margin-left:1rem;transition:all .3s ease}
 .nav .cta:hover{background:#7a1d2f;transform:translateY(-2px);box-shadow:0 4px 12px rgba(148,34,57,0.3)}
 .hero{padding:3rem 0;background:linear-gradient(180deg,#fffbf2 0%,#fffbf2 100%)}
+.bookings-live{background:#942239;color:#fff;border-bottom:1px solid rgba(255,255,255,0.2)}
+.bookings-live .container{padding:.65rem 2rem;text-align:center}
+.bookings-live p{margin:0;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:1rem}
 .hero .container{max-width:var(--max-width);margin:0 auto;padding:2rem}
 .hero .eyebrow{color:var(--muted);letter-spacing:.08em;margin-bottom:1rem;font-size:1.1rem}
 .hero-title{font-family:'Playfair Display',serif;font-size:3.2rem;margin:0 0 1.2rem;line-height:1.05}
@@ -216,6 +219,19 @@ h3{margin-top:0;font-size:2rem}
 .pricing-table .row.highlight:hover{background:#f0e6dc}
 .pricing-table .badge{display:inline-block;background:#000;color:#fff;font-size:.7rem;padding:.2rem .5rem;border-radius:4px;margin-left:.5rem;font-weight:600}
 .pricing-table .was{color:var(--muted);text-decoration:line-through;margin-right:.4rem}
+.memberships-section{margin-top:1.25rem}
+.memberships-section h4{font-size:1.6rem;margin-bottom:.5rem}
+.membership-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.membership-card h4{font-size:1.9rem;margin:.2rem 0 .5rem}
+.membership-card h5{font-size:1.3rem;margin:.75rem 0 .35rem}
+.membership-card ul{padding-left:1.1rem;margin:.25rem 0 .75rem;line-height:1.6}
+.membership-price{margin:.25rem 0 0;font-size:2rem;line-height:1.1}
+.membership-note{color:#942239;font-weight:600;margin:.25rem 0 .5rem}
+.membership-cta{margin:.6rem 0 .75rem}
+.membership-buy-link{display:inline-flex!important}
+.founders-card{border:2px solid #942239;background:linear-gradient(180deg,#fff8ef 0%,#fff 100%);position:relative;transform:translateY(-4px);box-shadow:0 12px 24px rgba(148,34,57,0.12)}
+.founders-card h4{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.founders-badge{display:inline-block;font-family:'Lora',serif;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:#942239;color:#fff;padding:.25rem .5rem;border-radius:999px;white-space:nowrap}
 .pricing-actions{margin-top:1rem;display:flex;justify-content:center;gap:.75rem}
 .new-to-reformer h4{color:#942239;margin-bottom:.35rem;font-size:1.3rem}
 .new-to-reformer ul{padding-left:1.2rem;margin:.35rem 0 1rem;color:var(--dark);font-size:1rem;line-height:1.5}
@@ -301,31 +317,43 @@ input:checked + .slider:before{transform:translateX(26px)}
 
 /* Mobile */
 @media (max-width:1000px){
+  body{font-size:1rem;line-height:1.7}
   .container{padding:1rem}
   .header-inner{flex-direction:row;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:nowrap;padding:0 1rem}
   .logo{max-height:35px}
   .logo-section{flex-shrink:0}
   
   .hero{padding:2rem 0}
+  .bookings-live .container{padding:.6rem 1rem}
+  .bookings-live p{font-size:.95rem}
   .nav{width:280px;right:-300px;padding:4.5rem 1.5rem 2rem}
   .nav a{font-size:1.05rem;padding:.75rem 0}
   .loginRegister{font-size:1rem!important}
   .hero-container{display:flex;flex-direction:column;gap:1.5rem}
   .hero-image{display:block;order:2;min-height:450px;max-height:550px}
   .hero-text{order:1}
-  .hero-title{font-size:1.8rem}
-  .hero-sub{font-size:1rem}
+  .hero-title{font-size:2rem}
+  .hero-sub{font-size:1.05rem}
   .hero-sub--heading{font-size:1rem}
   .hero-ctas{flex-direction:column;gap:.5rem}
-  .btn,.btn-outline{display:block;text-align:center;width:100%}
-  .availability{font-size:.9rem}
-  h3{font-size:1.6rem}
+  .btn,.btn-outline{display:block;text-align:center;width:100%;font-size:1rem}
+  .availability{font-size:1rem}
+  h1{font-size:2rem}
+  h2{font-size:1.85rem}
+  h3{font-size:1.75rem}
+  h4{font-size:1.35rem}
+  p, li, a{font-size:1rem}
   .instructor-grid{grid-template-columns:1fr;gap:1rem}
   .card-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}
   .card{padding:.75rem}
-  .card h4{font-size:1.1rem}
-  .card p{font-size:.85rem}
-  .card .meta{font-size:.75rem}
+  .card h4{font-size:1.2rem}
+  .card p{font-size:.95rem}
+  .card .meta{font-size:.9rem}
+  .membership-card h4{font-size:1.65rem}
+  .membership-card h5{font-size:1.2rem}
+  .membership-price{font-size:1.8rem}
+  .founders-card{transform:none}
+  .founders-badge{font-size:.68rem}
   .features{grid-template-columns:1fr}
   .pricing-table .row{grid-template-columns:1fr;gap:.5rem;padding:.6rem}
   .pricing-table .row > div:nth-child(2){order:-1;font-size:1.1rem;margin-bottom:.25rem}
@@ -341,9 +369,11 @@ input:checked + .slider:before{transform:translateX(26px)}
 @media (max-width:400px){
   .logo{max-height:30px}
   .nav{width:260px;right:-280px;padding:4rem 1.25rem 2rem}
-  .nav a{font-size:1rem;padding:.7rem 0}
+  .nav a{font-size:1.05rem;padding:.7rem 0}
   .loginRegister{font-size:.95rem!important}
-  .hero-title{font-size:1.5rem}
+  .hero-title{font-size:1.7rem}
+  h3{font-size:1.55rem}
+  p, li, a{font-size:.98rem}
   .container{padding:.75rem}
   .contact-grid{grid-template-columns:1fr!important;gap:1.5rem!important;margin-left:0!important;margin-right:0!important;overflow:hidden!important}
   .contact-grid .map{overflow:hidden!important}
