@@ -9,9 +9,9 @@
   --gutter-tablet:1.25rem;
   --gutter-mobile:1rem;
   --gutter-small:.75rem;
-  --section-pad-desktop:2rem;
-  --section-pad-tablet:1.5rem;
-  --section-pad-mobile:1.1rem;
+  --section-pad-desktop:3rem;
+  --section-pad-tablet:2.2rem;
+  --section-pad-mobile:1.6rem;
 }
 *{box-sizing:border-box;scroll-behavior:smooth}
 
@@ -104,27 +104,31 @@ a{font-family:'Lora',serif;font-weight:600;color:#942239;cursor:pointer}
 .hero .eyebrow{color:var(--muted);letter-spacing:.08em;margin-bottom:1rem;font-size:1.1rem}
 .hero-title{font-family:'Playfair Display',serif;font-size:3.2rem;margin:0 0 1.2rem;line-height:1.05}
 .hero-sub{margin:0 0 2rem;color:var(--muted);max-width:56ch;font-size:1.3rem}
-.hero-sub--heading{font-family:'Cormorant Garamond',serif;color:#942239;font-size:1.1rem}
-.hero-text h1{font-family:'Playfair Display',serif;font-size:3.2rem;margin:0 0 1.2rem;line-height:1.05;color:#942239}
-.hero-text > p:first-of-type{margin:0 0 2rem;color:var(--muted);max-width:56ch;font-size:1.3rem}
-.hero-ctas{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
-.availability{color:#c86d7d;font-weight:600;margin-top:.75rem;font-size:1.05rem}
+.hero-sub--heading{font-family:'Playfair Display',serif;color:#942239;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;text-align:center;line-height:1.2;letter-spacing:.08em;text-transform:uppercase;margin:1.2rem auto 1.5rem;padding:.2rem 1.1rem .35rem;position:relative;width:fit-content}
+.hero-sub--heading::before,.hero-sub--heading::after{content:'';position:absolute;top:50%;width:42px;height:1px;background:linear-gradient(90deg,transparent,#942239);opacity:.55;transform:translateY(-50%)}
+.hero-sub--heading::before{left:-42px}
+.hero-sub--heading::after{right:-42px;transform:translateY(-50%) rotate(180deg)}
+.hero-text h1{font-family:'Playfair Display',serif;font-size:3.2rem;margin:0 0 1.35rem;line-height:1.08;color:#942239}
+.hero-text > p:first-of-type{margin:0 0 2rem;color:var(--muted);max-width:100%;font-size:1.45rem}
+.hero-ctas{display:flex;gap:1rem;margin-bottom:1.35rem;flex-wrap:wrap}
+.availability{color:#c86d7d;font-weight:600;margin-top:1rem;font-size:1.05rem;text-align:center}
+.local-seo{padding-top:.5rem;padding-bottom:2rem}
 .local-seo h2{font-size:1.3rem;margin:0 0 1rem 0;color:#942239;font-weight:600}
 .local-seo p{color:var(--dark);line-height:1.7;margin:0;font-size:1rem}
 .hero-image{display:none;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(15,15,15,0.06);position:relative;background:#fffbf2}
 .hero-image::after{content:'';position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(to right,rgba(255,251,242,0.4),transparent);pointer-events:none}
 .hero-image img{width:100%;height:100%;object-fit:contain;object-position:center}
-.btn,.btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.1rem;line-height:1.2;border-radius:10px;text-decoration:none;cursor:pointer;font-weight:600;min-height:3rem;padding:.85rem 1.3rem}
+.btn,.btn-outline,.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.05rem;line-height:1.2;border-radius:10px;text-decoration:none;cursor:pointer;font-weight:600;min-height:3rem;padding:.85rem 1.3rem;text-align:center;white-space:nowrap}
 .btn{background:#942239;color:#fff;border:2px solid #7a1d2f;transition:all .3s ease}
 .btn:hover,.btn:focus{background:#7a1d2f;transform:translateY(-2px);box-shadow:0 6px 16px rgba(148,34,57,0.3)}
 .btn:focus-visible{outline:3px solid #942239;outline-offset:2px}
 .btn-outline{border:2px solid #942239;color:#942239;background:transparent;transition:all .3s ease}
 .btn-outline:hover,.btn-outline:focus{background:#942239;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(148,34,57,0.2)}
 .btn-outline:focus-visible{outline:3px solid #942239;outline-offset:2px}
-.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.1rem;line-height:1.2;border-radius:10px;text-decoration:none;cursor:pointer;font-weight:600;min-height:3rem;padding:.85rem 1.3rem;background:#942239;color:#fff;border:2px solid #7a1d2f;transition:all .3s ease}
+.btn-primary{background:#942239;color:#fff;border:2px solid #7a1d2f;transition:all .3s ease}
 .btn-primary:hover,.btn-primary:focus{background:#7a1d2f;transform:translateY(-2px);box-shadow:0 6px 16px rgba(148,34,57,0.3)}
 .btn-primary:focus-visible{outline:3px solid #942239;outline-offset:2px}
-.btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.1rem;line-height:1.2;border-radius:10px;text-decoration:none;cursor:pointer;font-weight:600;min-height:3rem;padding:.85rem 1.3rem;border:2px solid #942239;color:#942239;background:transparent;transition:all .3s ease}
+.btn-secondary{border:2px solid #942239;color:#942239;background:transparent;transition:all .3s ease}
 .btn-secondary:hover,.btn-secondary:focus{background:#942239;color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(148,34,57,0.2)}
 .btn-secondary:focus-visible{outline:3px solid #942239;outline-offset:2px}
 .mindbody-booking{cursor:pointer}
@@ -329,7 +333,10 @@ input:checked + .slider:before{transform:translateX(26px)}
 
 /* Desktop Hero - 2 Column Layout */
 @media (min-width:901px){
-  .hero-container{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+  .hero-container{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+  .hero-text{display:flex;flex-direction:column;justify-content:space-between;min-height:680px;padding:.5rem 0 1rem}
+  .hero-ctas{margin-top:0}
+  .availability{margin-top:0}
   .hero-image{display:block;min-height:680px;max-height:none}
   .hero-sub{max-width:100%}
   .nav{width:320px;right:-340px}
@@ -366,9 +373,13 @@ input:checked + .slider:before{transform:translateX(26px)}
   .hero-text{order:1}
   .hero-title{font-size:2rem}
   .hero-sub{font-size:1.05rem}
-  .hero-sub--heading{font-size:1rem}
+  .hero-sub--heading{font-size:clamp(1.15rem,5vw,1.6rem);line-height:1.2;letter-spacing:.05em;margin:1rem auto 1rem;padding:.1rem .6rem .25rem}
+  .hero-sub--heading::before,.hero-sub--heading::after{width:24px}
+  .hero-sub--heading::before{left:-24px}
+  .hero-sub--heading::after{right:-24px}
+  .hero-text > p:first-of-type{font-size:1.15rem}
   .hero-ctas{flex-direction:column;gap:.5rem}
-  .btn,.btn-outline{display:block;text-align:center;width:100%;font-size:1rem}
+  .btn,.btn-outline,.btn-primary,.btn-secondary{display:block;text-align:center;width:100%;font-size:1rem;white-space:normal}
   .availability{font-size:1rem}
   h1{font-size:2rem}
   h2{font-size:1.85rem}
