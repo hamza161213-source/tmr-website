@@ -6,7 +6,7 @@ const MINDBODY_CONFIG = {
   bookingURL: 'https://your-mindbody-login-page.mindbody.io' // Update with your booking link
 };
 
-const BOOKING_THANK_YOU_PATH = 'booking-thank-you.html';
+const BOOKING_THANK_YOU_PATH = '/booking-thank-you';
 
 function isBookingSuccessSignal(value) {
   if (value === null || value === undefined) return false;
