@@ -1,16 +1,155 @@
 ﻿// Mindbody integration configuration
+// Note: Update these values with your actual Mindbody credentials from your account
 const MINDBODY_CONFIG = {
-  siteId: 'YOUR_SITE_ID', // Replace with your Mindbody Site ID
-  apiKey: 'YOUR_API_KEY', // Replace with your Mindbody API Key
-  bookingURL: 'https://your-mindbody-login-page.mindbody.io' // Replace with your booking link
+  siteId: '131809', // Mindbody Site ID
+  mbSiteId: '5750396', // Mindbody MB Site ID
+  bookingURL: 'https://your-mindbody-login-page.mindbody.io' // Update with your booking link
 };
 
+const BOOKING_THANK_YOU_PATH = 'booking-thank-you.html';
+
+function isBookingSuccessSignal(value) {
+  if (value === null || value === undefined) return false;
+  const normalized = String(value).toLowerCase();
+  return [
+    'success',
+    'booked',
+    'booking_complete',
+    'booking-complete',
+    'bookingconfirmed',
+    'confirmed',
+    'complete',
+    'true',
+    '1'
+  ].includes(normalized);
+}
+
+function redirectToBookingThankYou() {
+  const currentPath = window.location.pathname.toLowerCase();
+  if (currentPath.endsWith('/' + BOOKING_THANK_YOU_PATH) || currentPath.endsWith(BOOKING_THANK_YOU_PATH)) {
+    return;
+  }
+
+  // Prevent accidental repeated redirects in the same tab/session.
+  const guardKey = 'tmr_booking_redirected';
+  if (sessionStorage.getItem(guardKey) === '1') {
+    return;
+  }
+
+  sessionStorage.setItem(guardKey, '1');
+  window.location.href = BOOKING_THANK_YOU_PATH;
+}
+
+function checkBookingSuccessFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const successCandidates = [
+    params.get('booked'),
+    params.get('booking'),
+    params.get('booking_status'),
+    params.get('status'),
+    params.get('result'),
+    params.get('checkout'),
+    params.get('confirmed')
+  ];
+
+  if (successCandidates.some(isBookingSuccessSignal)) {
+    redirectToBookingThankYou();
+  }
+}
+
+function hasValidBookingURL(url) {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  return url.startsWith('http') && !url.includes('your-mindbody-login-page.mindbody.io');
+}
+
 document.addEventListener('DOMContentLoaded', function(){
+  checkBookingSuccessFromURL();
+
+  // Best-effort listener for booking completion events emitted by embedded widgets.
+  window.addEventListener('message', function(event) {
+    const data = event.data;
+    const eventSource = String(event.origin || '').toLowerCase();
+
+    // We only react to likely Mindbody/widget messages.
+    const sourceLooksRelevant = eventSource.includes('mindbody') || eventSource.includes('brandedweb');
+
+    if (typeof data === 'string') {
+      const message = data.toLowerCase();
+      const stringLooksSuccessful =
+        message.includes('booking') && (message.includes('success') || message.includes('confirmed') || message.includes('complete'));
+      if (sourceLooksRelevant && stringLooksSuccessful) {
+        redirectToBookingThankYou();
+      }
+      return;
+    }
+
+    if (data && typeof data === 'object') {
+      const payload = JSON.stringify(data).toLowerCase();
+      const objectLooksSuccessful =
+        payload.includes('booking') && (payload.includes('success') || payload.includes('confirmed') || payload.includes('complete'));
+
+      if (sourceLooksRelevant && objectLooksSuccessful) {
+        redirectToBookingThankYou();
+      }
+    }
+  });
+
   // Force scroll to top on page load
   if(window.location.hash){
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 1);
+  }
+
+  // Hamburger menu functionality
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('nav');
+  const overlay = document.getElementById('navOverlay') || document.querySelector('.nav-overlay');
+  const body = document.body;
+  
+  function toggleMenu() {
+    const isActive = hamburger.classList.contains('active');
+    
+    if(isActive) {
+      hamburger.classList.remove('active');
+      nav.classList.remove('active');
+      overlay.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    } else {
+      hamburger.classList.add('active');
+      nav.classList.add('active');
+      overlay.classList.add('active');
+      hamburger.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+  }
+  
+  if(hamburger && nav) {
+    hamburger.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking overlay
+    overlay.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking a nav link
+    const navLinks = nav.querySelectorAll('a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        if(nav.classList.contains('active')) {
+          toggleMenu();
+        }
+      });
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+      if(e.key === 'Escape' && nav.classList.contains('active')) {
+        toggleMenu();
+      }
+    });
   }
 
   const form = document.getElementById('contactForm');
@@ -38,8 +177,19 @@ document.addEventListener('DOMContentLoaded', function(){
   bookingLinks.forEach(link => {
     link.addEventListener('click', function(e){
       e.preventDefault();
-      // Redirect to Mindbody booking system
-      window.location.href = MINDBODY_CONFIG.bookingURL;
+      const target = this.getAttribute('href');
+
+      if (target && target.startsWith('#')) {
+        const section = document.querySelector(target);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+      }
+
+      if (hasValidBookingURL(MINDBODY_CONFIG.bookingURL)) {
+        window.location.href = MINDBODY_CONFIG.bookingURL;
+      }
     });
   });
 
@@ -85,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function(){
     entries.forEach(entry => {
       if(entry.isIntersecting){
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
+        // Keep observing to maintain visibility
       }
     });
   }, observerOptions);
@@ -108,6 +258,14 @@ document.addEventListener('DOMContentLoaded', function(){
   // Add staggered fade-in to cards
   const cards = document.querySelectorAll('.card');
   cards.forEach((card, index) => {
+    card.classList.add('fade-in-up');
+    if(index < 4) card.classList.add(`stagger-${index + 1}`);
+    fadeObserver.observe(card);
+  });
+
+  // Add fade-in to instructor cards
+  const instructorCards = document.querySelectorAll('.instructor-card');
+  instructorCards.forEach((card, index) => {
     card.classList.add('fade-in-up');
     if(index < 4) card.classList.add(`stagger-${index + 1}`);
     fadeObserver.observe(card);
