@@ -6,6 +6,57 @@ const MINDBODY_CONFIG = {
   bookingURL: 'https://your-mindbody-login-page.mindbody.io' // Update with your booking link
 };
 
+const BOOKING_THANK_YOU_PATH = 'booking-thank-you.html';
+
+function isBookingSuccessSignal(value) {
+  if (value === null || value === undefined) return false;
+  const normalized = String(value).toLowerCase();
+  return [
+    'success',
+    'booked',
+    'booking_complete',
+    'booking-complete',
+    'bookingconfirmed',
+    'confirmed',
+    'complete',
+    'true',
+    '1'
+  ].includes(normalized);
+}
+
+function redirectToBookingThankYou() {
+  const currentPath = window.location.pathname.toLowerCase();
+  if (currentPath.endsWith('/' + BOOKING_THANK_YOU_PATH) || currentPath.endsWith(BOOKING_THANK_YOU_PATH)) {
+    return;
+  }
+
+  // Prevent accidental repeated redirects in the same tab/session.
+  const guardKey = 'tmr_booking_redirected';
+  if (sessionStorage.getItem(guardKey) === '1') {
+    return;
+  }
+
+  sessionStorage.setItem(guardKey, '1');
+  window.location.href = BOOKING_THANK_YOU_PATH;
+}
+
+function checkBookingSuccessFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const successCandidates = [
+    params.get('booked'),
+    params.get('booking'),
+    params.get('booking_status'),
+    params.get('status'),
+    params.get('result'),
+    params.get('checkout'),
+    params.get('confirmed')
+  ];
+
+  if (successCandidates.some(isBookingSuccessSignal)) {
+    redirectToBookingThankYou();
+  }
+}
+
 function hasValidBookingURL(url) {
   if (!url || typeof url !== 'string') {
     return false;
@@ -15,6 +66,37 @@ function hasValidBookingURL(url) {
 }
 
 document.addEventListener('DOMContentLoaded', function(){
+  checkBookingSuccessFromURL();
+
+  // Best-effort listener for booking completion events emitted by embedded widgets.
+  window.addEventListener('message', function(event) {
+    const data = event.data;
+    const eventSource = String(event.origin || '').toLowerCase();
+
+    // We only react to likely Mindbody/widget messages.
+    const sourceLooksRelevant = eventSource.includes('mindbody') || eventSource.includes('brandedweb');
+
+    if (typeof data === 'string') {
+      const message = data.toLowerCase();
+      const stringLooksSuccessful =
+        message.includes('booking') && (message.includes('success') || message.includes('confirmed') || message.includes('complete'));
+      if (sourceLooksRelevant && stringLooksSuccessful) {
+        redirectToBookingThankYou();
+      }
+      return;
+    }
+
+    if (data && typeof data === 'object') {
+      const payload = JSON.stringify(data).toLowerCase();
+      const objectLooksSuccessful =
+        payload.includes('booking') && (payload.includes('success') || payload.includes('confirmed') || payload.includes('complete'));
+
+      if (sourceLooksRelevant && objectLooksSuccessful) {
+        redirectToBookingThankYou();
+      }
+    }
+  });
+
   // Force scroll to top on page load
   if(window.location.hash){
     setTimeout(() => {
