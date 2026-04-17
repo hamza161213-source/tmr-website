@@ -83,6 +83,7 @@ a{font-family:'Lora',serif;font-weight:600;color:#942239;cursor:pointer}
 .nav a:nth-child(5){transition-delay:.2s}
 .nav a:nth-child(6){transition-delay:.25s}
 .nav a:nth-child(7){transition-delay:.3s}
+.nav a:nth-child(8){transition-delay:.35s}
 .nav a:hover{color:#942239;padding-left:.75rem;background:rgba(148,34,57,0.03)}
 
 /* Book Now Button */
@@ -247,19 +248,84 @@ h4{font-size:1.2rem;color:#942239;font-weight:600}
 .pricing-table .was{color:var(--muted);text-decoration:line-through;margin-right:.4rem}
 .memberships-section{margin-top:1.25rem}
 .memberships-section h4{font-size:1.6rem;margin-bottom:.5rem}
-.membership-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-.membership-card{display:flex;flex-direction:column}
-.membership-card h4{font-size:1.9rem;margin:.2rem 0 .5rem}
-.membership-card h5{font-size:1.3rem;margin:.75rem 0 .35rem}
-.membership-card ul{padding-left:1.1rem;margin:.25rem 0 .75rem;line-height:2.2}
-.membership-card > ul:first-of-type{flex-grow:1}
-.membership-price{margin:.25rem 0 0;font-size:1.5rem;line-height:1.1}
+.memberships-intro{max-width:62ch;margin:0 0 1.1rem;color:var(--muted);font-size:1rem}
+.membership-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}
+.membership-card{display:flex;flex-direction:column;padding:1.5rem;border:1px solid rgba(148,34,57,0.12);box-shadow:0 10px 24px rgba(15,15,15,0.06)}
+.membership-card h4{font-size:1.9rem;margin:.2rem 0 .35rem}
+.membership-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;min-height:3.6rem}
+.membership-badges{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem}
+.membership-top{min-height:14.1rem;display:flex;flex-direction:column}
+.membership-tagline{color:#942239;font-weight:600;font-size:1rem;margin:0;line-height:1.45;min-height:3.1rem}
+.membership-card h5{font-size:1.3rem;margin:.6rem 0 .35rem}
+.membership-card ul{padding-left:1.1rem;margin:0;line-height:1.8}
+.membership-card li{margin-bottom:.35rem}
+.membership-top > ul{margin:0;min-height:10.7rem}
+.membership-price{margin:0;font-size:1.5rem;line-height:1.1}
+.essential-card .membership-price,.popular-card .membership-price{margin-top:1rem}
+.membership-card .meta{margin:.1rem 0 .55rem}
 .membership-note{color:#942239;font-weight:600;margin:.25rem 0 .5rem}
-.membership-cta{margin:.6rem 0 .75rem}
-.membership-buy-link{display:inline-flex!important}
-.elite-card{border:2px solid #942239;background:linear-gradient(160deg,#fffaf3 0%,#fff 52%,#fff4e7 100%);box-shadow:0 14px 28px rgba(148,34,57,0.14);position:relative;transform:translateY(-3px)}
-.elite-card h4{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.membership-cta{margin:0!important;padding:0!important;display:flex;justify-content:center;align-items:center;min-height:3.3rem;line-height:1}
+.membership-cta > *{margin:0!important}
+.membership-cta healcode-widget{display:inline-flex;align-items:center;justify-content:center;margin:0!important;padding:0!important;line-height:1}
+.membership-cta .healcode-contract-text-link,.membership-cta .membership-buy-link{margin:0!important}
+.membership-buy-link{display:inline-flex!important;align-items:center;justify-content:center;width:11.2rem;min-width:11.2rem;text-align:center}
+.membership-direct-link{display:inline-flex!important;align-items:center;justify-content:center;width:11.2rem;min-width:11.2rem;text-align:center}
+.membership-cta .healcode-contract-text-link{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;font-size:1.05rem;line-height:1.2;border-radius:10px;text-decoration:none;cursor:pointer;font-weight:600;min-height:3rem;padding:.85rem .7rem;text-align:center;white-space:nowrap;background:#942239;color:#fff;border:2px solid #7a1d2f;transition:all .3s ease;width:11.2rem;min-width:11.2rem;margin:0!important}
+.membership-cta .membership-buy-link{margin:0!important}
+.membership-cta .healcode-contract-text-link:hover,.membership-cta .healcode-contract-text-link:focus{background:#7a1d2f;transform:translateY(-2px);box-shadow:0 6px 16px rgba(148,34,57,0.3)}
+.membership-cta .healcode-contract-text-link:focus-visible{outline:3px solid #942239;outline-offset:2px}
+.membership-assurance{color:var(--muted);font-size:.9rem;font-weight:400;margin:0;text-align:center;min-height:auto}
+.membership-cta + .membership-assurance{margin-top:.4rem!important}
+.membership-checkout-note{color:var(--muted);font-size:.88rem;line-height:1.5;margin:0 0 .2rem}
+.popular-card{border:1px solid rgba(148,34,57,0.12);background:linear-gradient(135deg,#fff 0%,#faf9f7 100%);box-shadow:0 10px 24px rgba(15,15,15,0.06);position:relative;transform:none}
+.popular-pill,.elite-pill{display:inline-block;font-family:'Lora',serif;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;padding:.26rem .55rem;border-radius:999px;white-space:nowrap}
+.popular-pill{background:#7a1d2f;box-shadow:0 6px 16px rgba(122,29,47,0.22)}
+.value-pill{display:inline-block;font-family:'Lora',serif;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:#6e8f6a;padding:.26rem .55rem;border-radius:999px;white-space:nowrap}
+.elite-card{border:1px solid rgba(148,34,57,0.12);background:linear-gradient(135deg,#fff 0%,#faf9f7 100%);box-shadow:0 10px 24px rgba(15,15,15,0.06);position:relative}
 .elite-pill{display:inline-block;font-family:'Lora',serif;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:#942239;padding:.26rem .55rem;border-radius:999px;white-space:nowrap}
+.membership-card > ul:last-of-type{margin:0;padding-left:1.1rem}
+.membership-compare{margin-top:1rem;padding:1.1rem 1rem;border:1px solid rgba(148,34,57,0.14)}
+.membership-compare h5{margin:.1rem 0 .8rem;font-size:1.3rem}
+.membership-compare-table-wrap{overflow-x:auto}
+.membership-compare-table{width:100%;border-collapse:separate;border-spacing:0;min-width:700px}
+.membership-compare-table thead th{font-size:.92rem;color:#942239;background:#fff6ef;padding:.7rem .65rem;border-bottom:1px solid rgba(148,34,57,0.18);text-align:center}
+.membership-compare-table thead th:first-child{text-align:left;border-top-left-radius:8px}
+.membership-compare-table thead th:last-child{border-top-right-radius:8px}
+.membership-compare-table tbody th,.membership-compare-table tbody td{padding:.65rem .65rem;border-bottom:1px solid #efe8df;font-size:.92rem;vertical-align:middle}
+.membership-compare-table tbody th{text-align:left;color:#4f4f4f;font-weight:700;background:#fff}
+.membership-compare-table tbody td{text-align:center;color:var(--dark);background:#fff}
+.membership-compare-table tbody td:nth-child(3),.membership-compare-table thead th:nth-child(3){background:#fff7f0}
+.membership-compare-table .popular-pill,.membership-compare-table .elite-pill{font-size:.62rem;padding:.18rem .42rem;margin-left:.3rem;vertical-align:middle}
+.merch-callout{margin-top:1.25rem;border:1px solid rgba(148,34,57,0.16);background:linear-gradient(135deg,#fff 0%,#fff7f1 100%)}
+.merch-callout h4{margin:.1rem 0 .35rem}
+.merch-callout p{margin:0;color:var(--dark)}
+.merch-callout-actions{margin-top:.9rem;display:flex;justify-content:flex-start}
+.shop-page main{padding-top:90px}
+.shop-page .hero{min-height:auto;padding:2.5rem 0 1.25rem}
+.shop-page .hero-sub{max-width:64ch;margin:0 auto 1.25rem;text-align:center}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;align-items:stretch}
+.shop-card{display:flex;flex-direction:column;gap:.8rem;height:100%}
+.shop-product-head{display:flex;justify-content:space-between;align-items:flex-end;gap:.75rem;padding-bottom:.35rem;border-bottom:1px solid rgba(148,34,57,0.18)}
+.shop-card h2{margin:0}
+.shop-card .meta{font-size:.95rem;color:#942239;font-weight:600;min-height:2.9rem}
+.shop-price{font-size:1.45rem;color:#942239;font-weight:700;margin:0;text-align:right;line-height:1;font-variant-numeric:tabular-nums}
+.shop-note{font-size:.95rem;color:var(--muted);margin:0}
+.product-gallery{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:.15rem 0 .2rem;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.product-gallery::-webkit-scrollbar{height:8px}
+.product-gallery::-webkit-scrollbar-thumb{background:#d9bfc4;border-radius:99px}
+.product-angle{scroll-snap-align:start;flex:0 0 100%;min-width:100%;aspect-ratio:3 / 4;min-height:360px;border-radius:10px;border:1px solid rgba(148,34,57,0.2);background:linear-gradient(160deg,#fffaf5 0%,#fff 100%);display:flex;align-items:center;justify-content:center;text-align:center;padding:.4rem;color:#942239;font-weight:600;margin:0;overflow:hidden}
+.product-angle img{display:block;width:100%;height:100%;object-fit:contain}
+.product-gallery--carousel .product-angle{min-width:100%}
+.gallery-dots{display:flex;justify-content:center;align-items:center;gap:.4rem;margin-top:.35rem;min-height:.8rem}
+.gallery-dots--single{visibility:hidden}
+.gallery-dot{width:.5rem;height:.5rem;border-radius:999px;border:0;background:#d4c7c9;cursor:pointer;padding:0;transition:background .22s ease,transform .22s ease}
+.gallery-dot.active{background:#942239;transform:scale(1.18)}
+.gallery-dot:focus-visible{outline:2px solid #942239;outline-offset:2px}
+.shop-actions{margin-top:auto;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;padding-top:.25rem}
+.shop-actions .btn{min-width:12.5rem}
+.shop-checkout-note{margin:.15rem 0 0;color:var(--muted);font-size:.92rem;line-height:1.5;text-align:center}
+.shop-disclaimer{margin-top:1.4rem;padding:1rem 1.1rem;border:1px solid rgba(148,34,57,0.18);border-radius:12px;background:linear-gradient(135deg,#fff8f3 0%,#fff 100%);font-size:1rem;color:#942239;text-align:center;line-height:1.6;box-shadow:0 8px 18px rgba(148,34,57,0.06)}
+.shop-disclaimer strong{display:block;font-size:1.08rem;font-weight:700;letter-spacing:.02em;color:#942239;margin-bottom:.15rem}
 .pricing-actions{margin-top:1rem;display:flex;justify-content:center;gap:.75rem}
 .new-to-reformer{margin-top:2rem;margin-bottom:2rem}
 .new-to-reformer ul{padding-left:1.5rem;margin:0.5rem 0 1.25rem;color:var(--dark);font-size:1.05rem;line-height:1.7}
@@ -395,12 +461,26 @@ input:checked + .slider:before{transform:translateX(26px)}
   .card h4{font-size:1.2rem}
   .card p{font-size:.95rem}
   .card .meta{font-size:.9rem}
+  .membership-grid{grid-template-columns:1fr;gap:.9rem}
   .membership-card h4{font-size:1.65rem}
   .membership-card h5{font-size:1.2rem}
   .membership-price{font-size:1.35rem}
   .membership-price strong{font-size:1.35rem!important}
-  .elite-card{transform:none}
-  .elite-pill{font-size:.68rem}
+  .popular-card,.elite-card{transform:none}
+  .popular-pill,.elite-pill,.value-pill{font-size:.68rem}
+  .membership-badges{align-items:flex-start}
+  .membership-card-head{flex-wrap:wrap}
+  .membership-top{display:block}
+  .membership-top > ul{min-height:auto;margin:.25rem 0 .75rem}
+  .membership-card{display:flex;flex-direction:column}
+  .membership-card .meta{margin:.1rem 0 .55rem}
+  .membership-cta{margin:0!important;padding:0!important;display:flex;justify-content:center;align-items:center;min-height:3.3rem}
+  .membership-assurance{margin:0}
+  .membership-cta + .membership-assurance{margin-top:.4rem!important}
+  .membership-card h5{margin:.75rem 0 .35rem}
+  .membership-compare{padding:.95rem .8rem}
+  .membership-compare h5{font-size:1.18rem}
+  .membership-compare-table{min-width:620px}
   .features{grid-template-columns:1fr}
   .pricing-table .row{grid-template-columns:1fr;gap:.5rem;padding:.6rem}
   .pricing-table .row > div:nth-child(2){order:-1;font-size:1.1rem;margin-bottom:.25rem}
