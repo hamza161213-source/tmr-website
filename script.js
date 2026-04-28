@@ -7,10 +7,16 @@ const MINDBODY_CONFIG = {
 };
 
 const BOOKING_THANK_YOU_PATH = '/booking-thank-you';
+const WAITLIST_THANK_YOU_PATH = '/waitlist-thank-you';
+
+function normalizeSignal(value) {
+  if (value === null || value === undefined) return '';
+  return String(value).toLowerCase().trim();
+}
 
 function isBookingSuccessSignal(value) {
-  if (value === null || value === undefined) return false;
-  const normalized = String(value).toLowerCase();
+  const normalized = normalizeSignal(value);
+  if (!normalized) return false;
   return [
     'success',
     'booked',
@@ -24,20 +30,56 @@ function isBookingSuccessSignal(value) {
   ].includes(normalized);
 }
 
-function redirectToBookingThankYou() {
-  const currentPath = window.location.pathname.toLowerCase();
-  if (currentPath.endsWith('/' + BOOKING_THANK_YOU_PATH) || currentPath.endsWith(BOOKING_THANK_YOU_PATH)) {
+function isWaitlistSignal(value) {
+  const normalized = normalizeSignal(value);
+  if (!normalized) return false;
+
+  if (normalized.includes('waitlist') || normalized.includes('wait_list') || normalized.includes('wait-listed')) {
+    return true;
+  }
+
+  return [
+    'waitlisted',
+    'wait_listed',
+    'joined_waitlist',
+    'waitlist_joined',
+    'added_to_waitlist',
+    'join_waitlist'
+  ].includes(normalized);
+}
+
+function isTruthySignal(value) {
+  const normalized = normalizeSignal(value);
+  if (!normalized) return false;
+  return !['false', '0', 'no', 'none', 'null', 'undefined'].includes(normalized);
+}
+
+function isOnPath(pathname, expectedPath) {
+  const current = pathname.toLowerCase().replace(/\/+$/, '');
+  const expected = expectedPath.toLowerCase().replace(/\/+$/, '');
+  return current === expected || current.endsWith(expected);
+}
+
+function redirectToPath(path, guardKey) {
+  if (isOnPath(window.location.pathname, path)) {
     return;
   }
 
   // Prevent accidental repeated redirects in the same tab/session.
-  const guardKey = 'tmr_booking_redirected';
   if (sessionStorage.getItem(guardKey) === '1') {
     return;
   }
 
   sessionStorage.setItem(guardKey, '1');
-  window.location.href = BOOKING_THANK_YOU_PATH;
+  window.location.href = path;
+}
+
+function redirectToBookingThankYou() {
+  redirectToPath(BOOKING_THANK_YOU_PATH, 'tmr_booking_redirected');
+}
+
+function redirectToWaitlistThankYou() {
+  redirectToPath(WAITLIST_THANK_YOU_PATH, 'tmr_waitlist_redirected');
 }
 
 function checkBookingSuccessFromURL() {
@@ -52,9 +94,54 @@ function checkBookingSuccessFromURL() {
     params.get('confirmed')
   ];
 
+  const waitlistCandidates = [
+    params.get('waitlist'),
+    params.get('booking_type'),
+    params.get('type'),
+    params.get('outcome'),
+    params.get('action'),
+    params.get('reason')
+  ];
+
+  const hasWaitlistContext =
+    waitlistCandidates.some(isWaitlistSignal) ||
+    params.toString().toLowerCase().includes('waitlist');
+  const hasWaitlistSuccess =
+    waitlistCandidates.some(isTruthySignal) ||
+    successCandidates.some(isBookingSuccessSignal);
+
+  if (hasWaitlistContext && hasWaitlistSuccess) {
+    redirectToWaitlistThankYou();
+    return;
+  }
+
   if (successCandidates.some(isBookingSuccessSignal)) {
     redirectToBookingThankYou();
   }
+}
+
+function parseWidgetOutcome(rawData) {
+  if (!rawData) {
+    return null;
+  }
+
+  const payload = typeof rawData === 'string' ? rawData.toLowerCase() : JSON.stringify(rawData).toLowerCase();
+  const indicatesSuccess =
+    payload.includes('success') ||
+    payload.includes('confirmed') ||
+    payload.includes('complete') ||
+    payload.includes('joined') ||
+    payload.includes('added');
+
+  if (payload.includes('waitlist') && indicatesSuccess) {
+    return 'waitlist';
+  }
+
+  if (payload.includes('booking') && indicatesSuccess) {
+    return 'booking';
+  }
+
+  return null;
 }
 
 function hasValidBookingURL(url) {
@@ -75,23 +162,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // We only react to likely Mindbody/widget messages.
     const sourceLooksRelevant = eventSource.includes('mindbody') || eventSource.includes('brandedweb');
-
-    if (typeof data === 'string') {
-      const message = data.toLowerCase();
-      const stringLooksSuccessful =
-        message.includes('booking') && (message.includes('success') || message.includes('confirmed') || message.includes('complete'));
-      if (sourceLooksRelevant && stringLooksSuccessful) {
-        redirectToBookingThankYou();
-      }
+    if (!sourceLooksRelevant) {
       return;
     }
 
-    if (data && typeof data === 'object') {
-      const payload = JSON.stringify(data).toLowerCase();
-      const objectLooksSuccessful =
-        payload.includes('booking') && (payload.includes('success') || payload.includes('confirmed') || payload.includes('complete'));
+    if (typeof data === 'string' || (data && typeof data === 'object')) {
+      const outcome = parseWidgetOutcome(data);
 
-      if (sourceLooksRelevant && objectLooksSuccessful) {
+      if (outcome === 'waitlist') {
+        redirectToWaitlistThankYou();
+        return;
+      }
+
+      if (outcome === 'booking') {
         redirectToBookingThankYou();
       }
     }
